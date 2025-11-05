@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💡 BizGenie AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+    textarea {
+      width: 80%;
+      height: 120px;
+      border-radius: 10px;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      resize: none;
+    }
+    button {
+      background: #00ffb3;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 25px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    #output {
+      background: white;
+      color: black;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>💼 BizGenie AI — بزنس آئیڈیا جنریٹر</h1>
+
+  <textarea id="userInput" placeholder="یہاں لکھیں: مثال کے طور پر — 'ایک ایسا بزنس جو روزمرہ زندگی آسان کرے'"></textarea><br />
+  <button onclick="generateIdea()">🚀 آئیڈیا حاصل کریں</button>
+  <div id="output"></div>
+
+  <script>
+    async function generateIdea() {
+      const text = document.getElementById("userInput").value.trim();
+      const output = document.getElementById("output");
+
+      if (!text) {
+        output.innerHTML = "براہ کرم کوئی خیال لکھیں۔";
+        return;
+      }
+
+      output.innerHTML = "⏳ براہ کرم انتظار کریں...";
+
+      try {
+        // Backend endpoint
+        const backendURL = "http://localhost:5000/api/generate-plan";
+
+        const response = await fetch(backendURL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+
+        if (!response.ok) throw new Error("Backend not responding");
+
+        const data = await response.json();
+        output.innerHTML =
+          data.plan ||
+          data.error ||
+          "⚠️ کوئی جواب نہیں ملا۔ براہ کرم دوبارہ کوشش کریں۔";
+      } catch (err) {
+        output.innerHTML =
+          "❌ کنکشن میں مسئلہ! براہ کرم یقینی بنائیں کہ backend (server.js) چل رہا ہے۔";
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>

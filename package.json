@@ -1,0 +1,13 @@
+{
+  "name": "bizgenie",
+  "version": "1.0.0",
+  "description": "AI Business Idea Generator",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module"
+}
